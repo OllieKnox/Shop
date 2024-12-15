@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Auth.Extensions\Auth.Extensions.csproj" />
+    <ProjectReference Include="..\Exceptions\Exceptions.csproj" />
     <ProjectReference Include="..\Swagger.Extensions\Swagger.Extensions.csproj" />
   </ItemGroup>
 

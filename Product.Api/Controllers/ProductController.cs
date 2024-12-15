@@ -1,94 +1,71 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Product.Api.Contexts;
 using Product.Api.Contracts;
-using Product.Api.Converters;
+using Product.Api.Services;
 
 namespace Product.Api.Controllers
 {
     [Route("api/[controller]s")]
     [ApiController]
-    public class ProductController(ProductContext productContext, IProductConverter productConverter) : ControllerBase
+    public class ProductController(IProductService productService) : ControllerBase
     {
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Models.Product>>> GetProducts()
         {
-            return await productContext.Products.ToListAsync();
+            return await productService.GetProducts();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Models.Product>> GetProduct(int id)
         {
-            var product = await productContext.Products.FindAsync(id);
-
-            if (product == null)
+            try
+            {
+                return await productService.GetProduct(id);
+            }
+            catch (EntityNotFoundException)
             {
                 return NotFound();
             }
-
-            return product;
         }
 
         [HttpPost]
         [Authorize(Policy = "write:products")]
-        public async Task<ActionResult<Models.Product>> PostProduct([FromBody] ProductContract productContract)
+        public async Task<ActionResult<Models.Product>> CreateProduct([FromBody] ProductContract productContract)
         {
-            var product = productConverter.ToModel(productContract);
-
-            productContext.Products.Add(product);
-            await productContext.SaveChangesAsync();
-
+            var product = await productService.CreateProduct(productContract);
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
         [HttpPut("{id}")]
         [Authorize(Policy = "write:products")]
-        public async Task<IActionResult> PutProduct(int id, [FromBody] ProductContract productContract)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductContract productContract)
         {
-            var product = productConverter.ToModel(productContract);
-            product.Id = id;
-
-            productContext.Entry(product).State = EntityState.Modified;
-
             try
             {
-                await productContext.SaveChangesAsync();
+                await productService.UpdateProduct(id, productContract);
+                return NoContent();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (EntityNotFoundException)
             {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
-            return NoContent();
         }
 
         [HttpDelete("{id}")]
         [Authorize(Policy = "write:products")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            var product = await productContext.Products.FindAsync(id);
-            if (product == null)
+            try
+            {
+                await productService.DeleteProduct(id);
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
             {
                 return NotFound();
             }
-
-            productContext.Products.Remove(product);
-            await productContext.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ProductExists(int id)
-        {
-            return productContext.Products.Any(e => e.Id == id);
         }
     }
 }
