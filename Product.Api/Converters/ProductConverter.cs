@@ -12,7 +12,6 @@ namespace Product.Api.Converters
                 Description = contract.Description,
                 Price = contract.Price,
                 Stock = contract.Stock,
-                Category = contract.Category,
             };
         }
     }

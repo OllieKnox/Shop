@@ -19,8 +19,5 @@ namespace Product.Api.Models
         [Required(ErrorMessage = "Stock is required.")]
         [Range(0, int.MaxValue, ErrorMessage = "Stock must be a non-negative number.")]
         public int Stock { get; set; }
-
-        [Required(ErrorMessage = "Category is required.")]
-        public string Category { get; set; } = string.Empty;
     }
 }
