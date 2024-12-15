@@ -1,9 +1,12 @@
 using Auth.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Product.Api.Contexts;
+using Product.Api.Converters;
 using Swagger.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IProductConverter, ProductConverter>();
 
 builder.Services.AddDbContext<ProductContext>(options =>
 {
