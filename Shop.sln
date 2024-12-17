@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.Extensions", "Auth.Ext
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exceptions", "Exceptions\Exceptions.csproj", "{DD18757B-32E5-42EA-8D75-1B15E708776F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Product.Api.Tests", "Product.Api.Tests\Product.Api.Tests.csproj", "{33983ABB-D649-4AB5-A459-6258B83D40E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DD18757B-32E5-42EA-8D75-1B15E708776F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD18757B-32E5-42EA-8D75-1B15E708776F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD18757B-32E5-42EA-8D75-1B15E708776F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33983ABB-D649-4AB5-A459-6258B83D40E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33983ABB-D649-4AB5-A459-6258B83D40E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33983ABB-D649-4AB5-A459-6258B83D40E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33983ABB-D649-4AB5-A459-6258B83D40E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

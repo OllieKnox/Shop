@@ -11,17 +11,19 @@ namespace Product.Api.Controllers
     public class ProductController(IProductService productService) : ControllerBase
     {
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Models.Product>>> GetProducts()
+        public async Task<IActionResult> GetProducts()
         {
-            return await productService.GetProducts();
+            var products = await productService.GetProducts();
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Models.Product>> GetProduct(int id)
+        public async Task<IActionResult> GetProduct(int id)
         {
             try
             {
-                return await productService.GetProduct(id);
+                var products = await productService.GetProduct(id);
+                return Ok(products);
             }
             catch (EntityNotFoundException)
             {
@@ -31,7 +33,7 @@ namespace Product.Api.Controllers
 
         [HttpPost]
         [Authorize(Policy = "write:products")]
-        public async Task<ActionResult<Models.Product>> CreateProduct([FromBody] ProductContract productContract)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductContract productContract)
         {
             var product = await productService.CreateProduct(productContract);
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
