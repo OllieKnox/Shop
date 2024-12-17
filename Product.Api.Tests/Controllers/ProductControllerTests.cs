@@ -38,7 +38,7 @@ namespace Product.Api.Tests.Controllers
             
             var productsResult = (okObjectResult.Value as IEnumerable<Models.Product>)!;
 
-            Assert.AreEqual(1, productsResult.Count());
+            Assert.AreEqual(products.Count, productsResult.Count());
         }
 
         [TestMethod]
@@ -101,8 +101,6 @@ namespace Product.Api.Tests.Controllers
         public async Task UpdateProduct_ReturnsNoContent()
         {
             var productContract = new ProductContract { Name = "Product 1", Description = "Description 1", Price = 10.00, Stock = 250 };
-            mockProductService!.Setup(service => service.UpdateProduct(It.IsAny<int>(), It.IsAny<ProductContract>()));
-
             var actionResult = await productController!.UpdateProduct(1, productContract);
 
             Assert.IsNotNull(actionResult);
